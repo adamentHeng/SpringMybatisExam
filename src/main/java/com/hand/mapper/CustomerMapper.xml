@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.mapper.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.hand.dto.Customer" >
+    <id column="customer_id" property="customerId" jdbcType="SMALLINT" />
+    <result column="store_id" property="storeId" jdbcType="TINYINT" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address_id" property="addressId" jdbcType="SMALLINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="select" parameterType="com.hand.dto.Customer"  resultMap="BaseResultMap">
+  	select * from customer where store_id = #{storeId} and first_name = #{firstName} and
+  	last_name = #{lastName} and email = #{email} and address_id = #{addressId}
+  </select>
+  
+  <select id="countById" parameterType="short" resultType="int">
+  	select count(*) from customer where customer_id = #{customerId}
+  </select>
+  <delete id="deleteById" parameterType="short" >
+  	delete from customer where customer_id = #{customerId}
+  </delete>
+  <insert id="insertSelective" parameterType="com.hand.dto.Customer" >
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="active != null" >
+        active,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="lastUpdate != null" >
+        last_update,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        #{customerId,jdbcType=SMALLINT},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=TINYINT},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=SMALLINT},
+      </if>
+      <if test="active != null" >
+        #{active,jdbcType=BIT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdate != null" >
+        #{lastUpdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>
